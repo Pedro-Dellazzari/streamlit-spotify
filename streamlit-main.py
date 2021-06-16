@@ -104,66 +104,138 @@ def search_tracks_playlists(id):
     #Pegando o json
     tracks = tracks_get.json()
 
-    #Pegando os nomes das playlist 
-    i = 0 
-    for items in tracks['items']:
-        try:
-            tracks_name.append(tracks['items'][i]['track']['name'])
-            i = i+1
-        except:
-            pass
+    #Vendo se há algum erro dentro do track 
+    try:
+        verification = tracks['items'][0]['track']['name']
 
-    #Pegando o autor da música 
-    i = 0 
-    for items in tracks['items']:
-        try:
-            tracks_artists.append(tracks['items'][i]['track']['artists'][0]['name'])
-            i = i + 1
-        except:
-            pass
+        #Se continuar quer dizer que não tem nada errado na playlist
 
-    #Pegando o id do artista 
-    #Pensando se precisa pegar ou não
+        #Pegando os nomes das playlist 
+        i = 0 
+        for items in tracks['items']:
+            try:
+                tracks_name.append(tracks['items'][i]['track']['name'])
+                i = i+1
+            except:
+                pass
 
-    #Pegando o nome do álbumn
-    i = 0 
-    for items in tracks['items']:
-        try:
-            tracks_album.append(tracks['items'][i]['track']['album']['name'])
-            i = i + 1 
-        except:
-            pass
+        #Pegando o autor da música 
+        i = 0 
+        for items in tracks['items']:
+            try:
+                tracks_artists.append(tracks['items'][i]['track']['artists'][0]['name'])
+                i = i + 1
+            except:
+                pass
 
-    #Pegando a duração da música em ms 
-    i = 0 
-    for items in tracks['items']:
-        try:
-            tracks_ms.append(tracks['items'][i]['track']['duration_ms'])
-            i = i + 1 
-        except:
-            pass
+        #Pegando o id do artista 
+        #Pensando se precisa pegar ou não
 
-    #Pegando a data que a música foi adicionada na playlist
-    i = 0 
-    for items in tracks['items']:
-        try:
-            tracks_added.append(tracks['items'][i]['added_at'])
-            i = i + 1 
-        except:
-            pass
+        #Pegando o nome do álbumn
+        i = 0 
+        for items in tracks['items']:
+            try:
+                tracks_album.append(tracks['items'][i]['track']['album']['name'])
+                i = i + 1 
+            except:
+                pass
 
-    #Pegando o dia que a música foi lançada 
-    i = 0 
-    for items in tracks['items']:
-        try:
-            tracks_release_data.append(tracks['items'][i]['track']['album']['release_date'])
-        except:
-            pass
+        #Pegando a duração da música em ms 
+        i = 0 
+        for items in tracks['items']:
+            try:
+                tracks_ms.append(tracks['items'][i]['track']['duration_ms'])
+                i = i + 1 
+            except:
+                pass
 
-    #Pegando o nome das playlists
-    for items in tracks['items']:
-        play_name.append(Playlists_df['Nome'][Playlists_df['ID']==id].item())
+        #Pegando a data que a música foi adicionada na playlist
+        i = 0 
+        for items in tracks['items']:
+            try:
+                tracks_added.append(tracks['items'][i]['added_at'])
+                i = i + 1 
+            except:
+                pass
+
+        #Pegando o dia que a música foi lançada 
+        i = 0 
+        for items in tracks['items']:
+            try:
+                tracks_release_data.append(tracks['items'][i]['track']['album']['release_date'])
+                i = i + 1
+            except:
+                pass
+
+        #Pegando o nome das playlists
+        for items in tracks['items']:
+            play_name.append(Playlists_df['Nome'][Playlists_df['ID']==id].item())
+
+    except:
+
+        #Fazendo os append com a variável de música como o valor de 1 pra cima
          
+         #Pegando os nomes das playlist 
+        i = 1 
+        for items in tracks['items']:
+            try:
+                tracks_name.append(tracks['items'][i]['track']['name'])
+                i = i+1
+            except:
+                pass
+
+        #Pegando o autor da música 
+        i = 1 
+        for items in tracks['items']:
+            try:
+                tracks_artists.append(tracks['items'][i]['track']['artists'][0]['name'])
+                i = i + 1
+            except:
+                pass
+
+        #Pegando o id do artista 
+        #Pensando se precisa pegar ou não
+
+        #Pegando o nome do álbumn
+        i = 1
+        for items in tracks['items']:
+            try:
+                tracks_album.append(tracks['items'][i]['track']['album']['name'])
+                i = i + 1 
+            except:
+                pass
+
+        #Pegando a duração da música em ms 
+        i = 1
+        for items in tracks['items']:
+            try:
+                tracks_ms.append(tracks['items'][i]['track']['duration_ms'])
+                i = i + 1 
+            except:
+                pass
+
+        #Pegando a data que a música foi adicionada na playlist
+        i = 1
+        for items in tracks['items']:
+            try:
+                tracks_added.append(tracks['items'][i]['added_at'])
+                i = i + 1 
+            except:
+                pass
+
+        #Pegando o dia que a música foi lançada 
+        i = 1
+        for items in tracks['items']:
+            try:
+                tracks_release_data.append(tracks['items'][i]['track']['album']['release_date'])
+                i = i + 1
+            except:
+                pass
+
+        #Pegando o nome das playlists
+        for items in tracks['items']:
+            play_name.append(Playlists_df['Nome'][Playlists_df['ID']==id].item())
+
 #Web application 
 #Teste configuração de página 
 st.set_page_config(layout='wide')
@@ -219,6 +291,11 @@ if button:
 
     #Colocando os valors dentro da playlists    
     tracks_inside_playlists['playlist'] = play_name
+
+    #Deletando a última linha
+    tracks_inside_playlists = tracks_inside_playlists[:-1]
+
+    #Colocando os valores dentro 
     tracks_inside_playlists['added'] = tracks_added
     tracks_inside_playlists['release'] = tracks_release_data
     tracks_inside_playlists['nome'] = tracks_name
