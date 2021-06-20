@@ -94,6 +94,12 @@ def search_playlists(userid):
 
 #Função tracks dentro da playlists 
 def search_tracks_playlists(id):
+    global tracks_release_data
+    global tracks_added
+    global tracks_name
+    global elems
+    global play_name
+    global elems_2
 
     #Criando a url para pegar as músicas da playlist 
     playlists_tracks_url = "https://api.spotify.com/v1/playlists/{}/tracks".format(id)
@@ -121,7 +127,7 @@ def search_tracks_playlists(id):
             tracks_artists.append(tracks['items'][i]['track']['artists'][0]['name'])
             i = i + 1
         except:
-            i = i+1
+            i = i+1 
 
     #Pegando o id do artista 
     #Pensando se precisa pegar ou não
@@ -163,9 +169,16 @@ def search_tracks_playlists(id):
             tracks_release_data.append("0")
             i = i+1
 
+    #Checando os erros
+    if len(tracks_added) - len(tracks_name) != 0:
+        elems = len(tracks_added) - len(tracks_name)
+
+
     #Pegando o nome das playlists
     for i in tracks['items']:
         play_name.append(Playlists_df['Nome'][Playlists_df['ID']==id].item())
+
+    
 
 #Web application 
 #Teste configuração de página 
@@ -219,11 +232,15 @@ if button:
     for id in Playlists_df['ID']:
         search_tracks_playlists(id)
 
-
     #Colocando os valors dentro da playlists    
     tracks_inside_playlists['playlist'] = play_name
 
+    tracks_inside_playlists = tracks_inside_playlists.drop(index=tracks_inside_playlists.index[:int(elems)])
+
     #Colocando os valores dentro 
+    #Reorganizado os itens 
+    tracks_added = tracks_added[elems:]
+    tracks_release_data = tracks_release_data[elems:]
     tracks_inside_playlists['added'] = tracks_added
     tracks_inside_playlists['release'] = tracks_release_data
     tracks_inside_playlists['nome'] = tracks_name
@@ -236,7 +253,7 @@ if button:
 
     #Transofmrando a coluna em data 
     tracks_inside_playlists['added'] = pd.to_datetime(tracks_inside_playlists['added'])
-    tracks_inside_playlists['release'] = pd.to_datetime(tracks_inside_playlists['release'])
+    
 
     #Pegando o dia da semana e horário que a música foi selecionada
     tracks_inside_playlists["diadasemana"] = tracks_inside_playlists["added"].dt.dayofweek + 1
