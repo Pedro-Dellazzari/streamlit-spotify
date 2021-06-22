@@ -274,7 +274,7 @@ if button:
 
     #Criando o plot de barra
     bar_playlists = px.bar(Playlists_df.sort_values(by='Tracks', ascending=False).head(6), x='Nome', y='Tracks', text='Tracks', color_discrete_sequence=['#1DB954'], width=600)
-    bar_playlists.update_xaxes(showline=True, mirror=True, linecolor='black', linewidth=2)
+    bar_playlists.update_xaxes(showline=True, mirror=True, linecolor='black', linewidth=2, tickangle=25)
     bar_playlists.update_yaxes(showline=True, mirror=True, linecolor='black', linewidth=2)
     bar_playlists.update_layout(title_text='Músicas adicionadas por playlist', title_x=0.5)
 
