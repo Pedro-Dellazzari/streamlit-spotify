@@ -235,12 +235,19 @@ if button:
     #Colocando os valors dentro da playlists    
     tracks_inside_playlists['playlist'] = play_name
 
-    tracks_inside_playlists = tracks_inside_playlists.drop(index=tracks_inside_playlists.index[:int(elems)])
+    try:
+        tracks_inside_playlists = tracks_inside_playlists.drop(index=tracks_inside_playlists.index[:int(elems)])
+    except:
+        pass
 
     #Colocando os valores dentro 
     #Reorganizado os itens 
-    tracks_added = tracks_added[elems:]
-    tracks_release_data = tracks_release_data[elems:]
+    try:
+        tracks_added = tracks_added[elems:]
+        tracks_release_data = tracks_release_data[elems:]
+    except:
+        pass
+
     tracks_inside_playlists['added'] = tracks_added
     tracks_inside_playlists['release'] = tracks_release_data
     tracks_inside_playlists['nome'] = tracks_name
@@ -253,7 +260,6 @@ if button:
 
     #Transofmrando a coluna em data 
     tracks_inside_playlists['added'] = pd.to_datetime(tracks_inside_playlists['added'])
-    
 
     #Pegando o dia da semana e horário que a música foi selecionada
     tracks_inside_playlists["diadasemana"] = tracks_inside_playlists["added"].dt.dayofweek + 1
@@ -267,13 +273,13 @@ if button:
     col1, col2 = st.beta_columns(2)
 
     #Criando o plot de barra
-    bar_playlists = px.bar(Playlists_df.sort_values(by='Tracks', ascending=False), x='Nome', y='Tracks', text='Tracks', color_discrete_sequence=['#1DB954'], width=600)
+    bar_playlists = px.bar(Playlists_df.sort_values(by='Tracks', ascending=False).head(6), x='Nome', y='Tracks', text='Tracks', color_discrete_sequence=['#1DB954'], width=600)
     bar_playlists.update_xaxes(showline=True, mirror=True, linecolor='black', linewidth=2)
     bar_playlists.update_yaxes(showline=True, mirror=True, linecolor='black', linewidth=2)
     bar_playlists.update_layout(title_text='Músicas adicionadas por playlist', title_x=0.5)
 
     #Criando o plot de pizza
-    pie_playlists = px.pie(Playlists_df, values='Tracks', names='Nome', title="Porcentagem músicas por playlist", width=600)
+    pie_playlists = px.pie(Playlists_df.head(6), values='Tracks', names='Nome', title="Porcentagem músicas por playlist", width=600)
     pie_playlists.update_layout(title_x=0.5)
     
     #Plotando os gráficos nas colunas
