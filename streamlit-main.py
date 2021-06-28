@@ -203,11 +203,11 @@ faq.markdown("- A API apenas traz informações das playlists públicas do perfi
 
 #Melhorias dentro do código
 improv = st.beta_expander("Sabe como melhorar esse código?/Sugestões?")
-improv.markdown("Caso tenha alguma sugestão para melhorar o código fique à vontade para entrar em contato pelo [LinkedIn](linkedin.com/in/pedrodellazzari/)")
+improv.markdown("Caso tenha alguma sugestão para melhorar o código fique à vontade para entrar em contato pelo [LinkedIn](https://www.linkedin.com/in/pedrodellazzari/)")
 
 #Créditos da aplicação
 creditos = st.beta_expander("Créditos")
-creditos.markdown("Pedro Dellazzari\n\nE-mail: pedrocdellazzari@gmail.com\n\n[LinkedIn](linkedin.com/in/pedrodellazzari/)")
+creditos.markdown("Pedro Dellazzari\n\nE-mail: pedrocdellazzari@gmail.com\n\n[LinkedIn](https://www.linkedin.com/in/pedrodellazzari/)")
 
 #Criando o side widget 
 st.sidebar.title("Parâmetro de busca")
